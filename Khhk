@@ -1,107 +1,72 @@
 class Pracownik {
-    #imie;
-    #nazwisko;
-    #wynagrodzenie;
 
-    // Konstruktor na ocenę 2
-    constructor(imie, nazwisko, wynagrodzenie) {
-        this.#imie = imie;
-        this.#nazwisko = nazwisko;
-        this.#wynagrodzenie = wynagrodzenie;
+    // ===== POLA =====
+    private String imie;
+    private String nazwisko;
+    private double wynagrodzenie;
+
+    // ===== KONSTRUKTOR =====
+    public Pracownik(String imie, String nazwisko, double wynagrodzenie) {
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+        this.wynagrodzenie = wynagrodzenie;
     }
 
-    // Metoda na ocenę 3
-    getRoczneWynagrodzenie() {
-        return this.#wynagrodzenie * 12;
+    // ===== GETTERY =====
+    public String getImie() {
+        return imie;
     }
 
-    // Metoda na oceny 4 i 5
-    zmienWynagrodzenie(noweWynagrodzenie) {
-        // Warunek z oceny 4 - nie pozwalamy na obniżkę pensji
-        if (noweWynagrodzenie < this.#wynagrodzenie) {
-            console.log("Nie można obniżyć wynagrodzenia. Zmiana została zignorowana.");
+    public String getNazwisko() {
+        return nazwisko;
+    }
+
+    // ===== OCENA 3 =====
+    public double getRoczneWynagrodzenie() {
+        return wynagrodzenie * 12;
+    }
+
+    // ===== OCENA 4 + 5 =====
+    public void zmienWynagrodzenie(double noweWynagrodzenie) {
+
+        // brak obniżek
+        if (noweWynagrodzenie <= wynagrodzenie) {
             return;
         }
-        
-        // Warunek z oceny 5 - maksymalna podwyżka 20%
-        const maksymalnaPodwyzka = this.#wynagrodzenie * 1.20; // 100% + 20% = 120%
-        
-        if (noweWynagrodzenie > maksymalnaPodwyzka) {
-            console.log("Zbyt duża podwyżka, przyznano max 20%");
-            this.#wynagrodzenie = maksymalnaPodwyzka;
+
+        // max +20%
+        double maxWynagrodzenie = wynagrodzenie * 1.2;
+
+        if (noweWynagrodzenie > maxWynagrodzenie) {
+            wynagrodzenie = maxWynagrodzenie;
+            System.out.println("Zbyt duża podwyżka, przyznano max 20%");
         } else {
-            this.#wynagrodzenie = noweWynagrodzenie;
+            wynagrodzenie = noweWynagrodzenie;
         }
     }
 
-    // Standardowe gettery
-    get imie() {
-        return this.#imie;
-    }
-
-    get nazwisko() {
-        return this.#nazwisko;
-    }
-
-    get wynagrodzenie() {
-        return this.#wynagrodzenie;
-    }
-
-    // Settery (opcjonalnie, jeśli potrzebne)
-    set imie(noweImie) {
-        this.#imie = noweImie;
-    }
-
-    set nazwisko(noweNazwisko) {
-        this.#nazwisko = noweNazwisko;
-    }
-
-    // toString() dla lepszego wyświetlania
-    toString() {
-        return `${this.#imie} ${this.#nazwisko} - Wynagrodzenie: ${this.#wynagrodzenie} zł/miesiąc`;
+    public double getWynagrodzenie() {
+        return wynagrodzenie;
     }
 }
 
-// Przykład użycia (do testowania)
-function main() {
-    // Testowanie funkcjonalności
-    const pracownik = new Pracownik("Jan", "Kowalski", 5000);
-    
-    console.log("=== Test klasy Pracownik ===");
-    console.log(pracownik.toString());
-    console.log(`Początkowe wynagrodzenie roczne: ${pracownik.getRoczneWynagrodzenie()} zł`);
-    
-    // Próba podwyżki 50% - powinno dać tylko 20%
-    console.log("\n1. Próba podwyżki z 5000 do 7500 (+50%):");
-    pracownik.zmienWynagrodzenie(7500);
-    console.log(`Wynagrodzenie po próbie podwyżki: ${pracownik.wynagrodzenie} zł`);
-    
-    // Próba obniżenia pensji - powinno zostać zignorowane
-    console.log("\n2. Próba obniżenia wynagrodzenia z 6000 do 5500:");
-    pracownik.zmienWynagrodzenie(5500);
-    console.log(`Wynagrodzenie po próbie obniżki: ${pracownik.wynagrodzenie} zł`);
-    
-    // Prawidłowa podwyżka 15%
-    console.log("\n3. Próba podwyżki z 6000 do 6900 (+15%):");
-    pracownik.zmienWynagrodzenie(6900);
-    console.log(`Wynagrodzenie po podwyżce: ${pracownik.wynagrodzenie} zł`);
-    console.log(`Nowe wynagrodzenie roczne: ${pracownik.getRoczneWynagrodzenie()} zł`);
-    
-    // Test dostępu do pól
-    console.log("\n4. Dostęp do danych pracownika:");
-    console.log(`Imię: ${pracownik.imie}`);
-    console.log(`Nazwisko: ${pracownik.nazwisko}`);
-    
-    // Test setterów (jeśli potrzebne)
-    pracownik.imie = "Adam";
-    pracownik.nazwisko = "Nowak";
-    console.log(`\n5. Po zmianie danych: ${pracownik.toString()}`);
-}
+// ===== KLASA STARTOWA =====
+public class Main {
 
-// Uruchomienie przykładu
-if (require.main === module) {
-    main();
-}
+    public static void main(String[] args) {
 
-// Eksport klasy do użycia w innych modułach
-module.exports = Pracownik;
+        Pracownik p = new Pracownik("Jan", "Kowalski", 5000);
+
+        System.out.println("Pracownik: " + p.getImie() + " " + p.getNazwisko());
+        System.out.println("Miesięczna pensja: " + p.getWynagrodzenie());
+        System.out.println("Roczna pensja: " + p.getRoczneWynagrodzenie());
+
+        System.out.println("\nPodwyżka do 6000:");
+        p.zmienWynagrodzenie(6000);
+        System.out.println("Aktualna pensja: " + p.getWynagrodzenie());
+
+        System.out.println("\nPróba podwyżki do 9000:");
+        p.zmienWynagrodzenie(9000);
+        System.out.println("Aktualna pensja: " + p.getWynagrodzenie());
+    }
+} 
