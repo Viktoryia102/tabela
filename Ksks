@@ -1,17 +1,154 @@
-// 1. Zadeklaruj zmienną tekst
-let tekst = " Programowanie jest super! ";
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zadania ze Stringami</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        div { background: white; margin: 10px; padding: 10px; border-radius: 5px; }
+        button { margin: 5px; padding: 5px 10px; }
+        .wynik { background: #e0e0e0; padding: 5px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <h2>Zadania ze Stringami - Prosta wersja</h2>
 
-// 2. Wypisz w konsoli długość
-console.log("Długość tekstu:", tekst.length);
+    <!-- POZIOM 1 -->
+    <div>
+        <h3>Poziom 1 (1-5):</h3>
+        <button onclick="poziom1()">Uruchom</button>
+        <div id="wynik1" class="wynik"></div>
+    </div>
 
-// 3. Usuń białe znaki z początku i końca
-let tekstBezSpacji = tekst.trim();
-console.log("Po trim():", tekstBezSpacji);
+    <script>
+        // POZIOM 1 - wszystko w jednej funkcji
+        function poziom1() {
+            let tekst = " Programowanie jest super! ";
+            let wynik = document.getElementById("wynik1");
+            
+            wynik.innerHTML = 
+                "1. Tekst: '" + tekst + "'<br>" +
+                "2. Długość: " + tekst.length + "<br>" +
+                "3. Po trim(): '" + tekst.trim() + "'<br>" +
+                "4. Wielkie litery: " + tekst.trim().toUpperCase() + "<br>" +
+                "5. Czy ma 'super'? " + tekst.trim().includes("super");
+        }
 
-// 4. Zamień na wielkie litery
-let wielkieLitery = tekstBezSpacji.toUpperCase();
-console.log("Wielkie litery:", wielkieLitery);
+        // POZIOM 2 - proste funkcje
+        function zad6() {
+            let dane = "Marcin;Kowalski;30;Gdańsk";
+            alert("Nazwisko: " + dane.split(";")[1]);
+        }
 
-// 5. Sprawdź, czy zawiera słowo "super"
-let czyZawieraSuper = tekstBezSpacji.includes("super");
-console.log("Czy zawiera 'super'?:", czyZawieraSuper);
+        function zad7() {
+            let mail = prompt("Wpisz mail:");
+            alert("Czy kończy się na .pl? " + mail.endsWith(".pl"));
+        }
+
+        function zad8() {
+            let zdanie = "Lubię koty, bo koty są puszyste";
+            alert("Po zamianie: " + zdanie.replace("koty", "psy"));
+        }
+
+        function zad9() {
+            let imie = prompt("Wpisz imię:", "Karolina");
+            alert("Pierwszy znak: " + imie[0] + "\nOstatni znak: " + imie[imie.length-1]);
+        }
+
+        // POZIOM 3 - prosty PESEL
+        function sprawdzPesel() {
+            let pesel = document.getElementById("pesel").value;
+            let wynik = document.getElementById("wynikPesel");
+            
+            if(pesel.length == 11) {
+                wynik.innerHTML = pesel;
+                wynik.style.color = "green";
+            } else {
+                wynik.innerHTML = "Błąd";
+                wynik.style.color = "red";
+            }
+        }
+
+        function maskujPesel() {
+            let pesel = document.getElementById("pesel").value;
+            let wynik = document.getElementById("wynikPesel");
+            
+            if(pesel.length == 11) {
+                wynik.innerHTML = "*******" + pesel.slice(-4);
+                wynik.style.color = "blue";
+            }
+        }
+
+        // POZIOM 4 - najprostsze wersje
+        function generujSlug() {
+            let tytul = document.getElementById("tytul").value.toLowerCase();
+            let slug = "";
+            
+            for(let i = 0; i < tytul.length; i++) {
+                if(tytul[i] == " ") slug += "-";
+                else if(tytul[i] >= 'a' && tytul[i] <= 'z') slug += tytul[i];
+            }
+            
+            document.getElementById("wynikSlug").innerHTML = slug;
+        }
+
+        function liczSamogloski() {
+            let tekst = document.getElementById("tekst").value.toLowerCase();
+            let licznik = 0;
+            let samogloski = "aeiouy";
+            
+            for(let i = 0; i < tekst.length; i++) {
+                for(let j = 0; j < samogloski.length; j++) {
+                    if(tekst[i] == samogloski[j]) licznik++;
+                }
+            }
+            
+            document.getElementById("wynikSamogloski").innerHTML = "Liczba: " + licznik;
+        }
+
+        function odwroc() {
+            let tekst = document.getElementById("odwroc").value;
+            let wynik = "";
+            
+            for(let i = tekst.length-1; i >= 0; i--) {
+                wynik += tekst[i];
+            }
+            
+            document.getElementById("wynikOdwroc").innerHTML = wynik;
+        }
+    </script>
+
+    <!-- Przyciski dla zadań 6-9 -->
+    <div>
+        <h3>Poziom 2 (6-9):</h3>
+        <button onclick="zad6()">Zad 6 - Nazwisko</button>
+        <button onclick="zad7()">Zad 7 - Mail</button>
+        <button onclick="zad8()">Zad 8 - Zamień</button>
+        <button onclick="zad9()">Zad 9 - Znaki</button>
+    </div>
+
+    <!-- Pole dla PESEL -->
+    <div>
+        <h3>Poziom 3 (10-12):</h3>
+        <input id="pesel" placeholder="Wpisz PESEL" maxlength="11">
+        <button onclick="sprawdzPesel()">Sprawdź</button>
+        <button onclick="maskujPesel()">Maskuj</button>
+        <div id="wynikPesel" class="wynik"></div>
+    </div>
+
+    <!-- Pole dla Sluga -->
+    <div>
+        <h3>Poziom 4 (13-15):</h3>
+        <input id="tytul" placeholder="Tytuł" value="Co to jest OOP?">
+        <button onclick="generujSlug()">Zad 13 - Slug</button>
+        <div id="wynikSlug" class="wynik"></div>
+
+        <input id="tekst" placeholder="Tekst" value="Programowanie">
+        <button onclick="liczSamogloski()">Zad 14 - Samogłoski</button>
+        <div id="wynikSamogloski" class="wynik"></div>
+
+        <input id="odwroc" placeholder="Tekst do odwrócenia" value="ABC">
+        <button onclick="odwroc()">Zad 15 - Odwróć</button>
+        <div id="wynikOdwroc" class="wynik"></div>
+    </div>
+</body>
+</html> 
