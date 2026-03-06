@@ -1,154 +1,104 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Zadania ze Stringami</title>
-    <style>
-        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
-        div { background: white; margin: 10px; padding: 10px; border-radius: 5px; }
-        button { margin: 5px; padding: 5px 10px; }
-        .wynik { background: #e0e0e0; padding: 5px; margin-top: 5px; }
-    </style>
-</head>
-<body>
-    <h2>Zadania ze Stringami - Prosta wersja</h2>
+ // ===== POZIOM 1 =====
+let tekst = " Programowanie jest super! ";
 
-    <!-- POZIOM 1 -->
-    <div>
-        <h3>Poziom 1 (1-5):</h3>
-        <button onclick="poziom1()">Uruchom</button>
-        <div id="wynik1" class="wynik"></div>
-    </div>
+console.log("Długość:", tekst.length);
 
-    <script>
-        // POZIOM 1 - wszystko w jednej funkcji
-        function poziom1() {
-            let tekst = " Programowanie jest super! ";
-            let wynik = document.getElementById("wynik1");
-            
-            wynik.innerHTML = 
-                "1. Tekst: '" + tekst + "'<br>" +
-                "2. Długość: " + tekst.length + "<br>" +
-                "3. Po trim(): '" + tekst.trim() + "'<br>" +
-                "4. Wielkie litery: " + tekst.trim().toUpperCase() + "<br>" +
-                "5. Czy ma 'super'? " + tekst.trim().includes("super");
-        }
+let bezSpacji = tekst.trim();
+console.log("Trim:", bezSpacji);
 
-        // POZIOM 2 - proste funkcje
-        function zad6() {
-            let dane = "Marcin;Kowalski;30;Gdańsk";
-            alert("Nazwisko: " + dane.split(";")[1]);
-        }
+let wielkie = bezSpacji.toUpperCase();
+console.log("Upper:", wielkie);
 
-        function zad7() {
-            let mail = prompt("Wpisz mail:");
-            alert("Czy kończy się na .pl? " + mail.endsWith(".pl"));
-        }
+console.log("Czy zawiera 'super':", bezSpacji.includes("super"));
 
-        function zad8() {
-            let zdanie = "Lubię koty, bo koty są puszyste";
-            alert("Po zamianie: " + zdanie.replace("koty", "psy"));
-        }
 
-        function zad9() {
-            let imie = prompt("Wpisz imię:", "Karolina");
-            alert("Pierwszy znak: " + imie[0] + "\nOstatni znak: " + imie[imie.length-1]);
-        }
+// ===== POZIOM 2 =====
+let dane = "Marcin;Kowalski;30;Gdańsk";
+let tablica = dane.split(";");
+console.log("Nazwisko:", tablica[1]);
 
-        // POZIOM 3 - prosty PESEL
-        function sprawdzPesel() {
-            let pesel = document.getElementById("pesel").value;
-            let wynik = document.getElementById("wynikPesel");
-            
-            if(pesel.length == 11) {
-                wynik.innerHTML = pesel;
-                wynik.style.color = "green";
-            } else {
-                wynik.innerHTML = "Błąd";
-                wynik.style.color = "red";
-            }
-        }
+function sprawdzMail(mail) {
+  return mail.endsWith(".pl");
+}
+console.log("Mail .pl:", sprawdzMail("test@gmail.pl"));
 
-        function maskujPesel() {
-            let pesel = document.getElementById("pesel").value;
-            let wynik = document.getElementById("wynikPesel");
-            
-            if(pesel.length == 11) {
-                wynik.innerHTML = "*******" + pesel.slice(-4);
-                wynik.style.color = "blue";
-            }
-        }
+let zdanie = "Lubię koty, bo koty są puszyste";
+let noweZdanie = zdanie.replace("koty", "psy");
+console.log(noweZdanie);
 
-        // POZIOM 4 - najprostsze wersje
-        function generujSlug() {
-            let tytul = document.getElementById("tytul").value.toLowerCase();
-            let slug = "";
-            
-            for(let i = 0; i < tytul.length; i++) {
-                if(tytul[i] == " ") slug += "-";
-                else if(tytul[i] >= 'a' && tytul[i] <= 'z') slug += tytul[i];
-            }
-            
-            document.getElementById("wynikSlug").innerHTML = slug;
-        }
+function pierwszyIOstatni(imie) {
+  let pierwszy = imie[0];
+  let ostatni = imie[imie.length - 1];
+  console.log("Pierwszy:", pierwszy, "Ostatni:", ostatni);
+}
+pierwszyIOstatni("Marcin");
 
-        function liczSamogloski() {
-            let tekst = document.getElementById("tekst").value.toLowerCase();
-            let licznik = 0;
-            let samogloski = "aeiouy";
-            
-            for(let i = 0; i < tekst.length; i++) {
-                for(let j = 0; j < samogloski.length; j++) {
-                    if(tekst[i] == samogloski[j]) licznik++;
-                }
-            }
-            
-            document.getElementById("wynikSamogloski").innerHTML = "Liczba: " + licznik;
-        }
 
-        function odwroc() {
-            let tekst = document.getElementById("odwroc").value;
-            let wynik = "";
-            
-            for(let i = tekst.length-1; i >= 0; i--) {
-                wynik += tekst[i];
-            }
-            
-            document.getElementById("wynikOdwroc").innerHTML = wynik;
-        }
-    </script>
+// ===== POZIOM 3 =====
+document.body.innerHTML += `
+<input id="pesel" placeholder="PESEL">
+<button id="btn">Sprawdź</button>
+<p id="wynik"></p>
+`;
 
-    <!-- Przyciski dla zadań 6-9 -->
-    <div>
-        <h3>Poziom 2 (6-9):</h3>
-        <button onclick="zad6()">Zad 6 - Nazwisko</button>
-        <button onclick="zad7()">Zad 7 - Mail</button>
-        <button onclick="zad8()">Zad 8 - Zamień</button>
-        <button onclick="zad9()">Zad 9 - Znaki</button>
-    </div>
+document.getElementById("btn").onclick = function () {
+  let pesel = document.getElementById("pesel").value;
+  let wynik = document.getElementById("wynik");
 
-    <!-- Pole dla PESEL -->
-    <div>
-        <h3>Poziom 3 (10-12):</h3>
-        <input id="pesel" placeholder="Wpisz PESEL" maxlength="11">
-        <button onclick="sprawdzPesel()">Sprawdź</button>
-        <button onclick="maskujPesel()">Maskuj</button>
-        <div id="wynikPesel" class="wynik"></div>
-    </div>
+  if (pesel.length === 11) {
+    wynik.style.color = "green";
+    wynik.textContent = maskujPesel(pesel);
+  } else {
+    wynik.style.color = "red";
+    wynik.textContent = "Błąd";
+  }
+};
 
-    <!-- Pole dla Sluga -->
-    <div>
-        <h3>Poziom 4 (13-15):</h3>
-        <input id="tytul" placeholder="Tytuł" value="Co to jest OOP?">
-        <button onclick="generujSlug()">Zad 13 - Slug</button>
-        <div id="wynikSlug" class="wynik"></div>
+function maskujPesel(pesel) {
+  let ostatnie = pesel.slice(-4);
+  return "*******" + ostatnie;
+}
 
-        <input id="tekst" placeholder="Tekst" value="Programowanie">
-        <button onclick="liczSamogloski()">Zad 14 - Samogłoski</button>
-        <div id="wynikSamogloski" class="wynik"></div>
 
-        <input id="odwroc" placeholder="Tekst do odwrócenia" value="ABC">
-        <button onclick="odwroc()">Zad 15 - Odwróć</button>
-        <div id="wynikOdwroc" class="wynik"></div>
-    </div>
-</body>
-</html> 
+// ===== POZIOM 4 =====
+class SlugGenerator {
+  generuj(tytul) {
+    return tytul
+      .toLowerCase()
+      .replace(/[^\w\s]/g, "")
+      .replace(/\s+/g, "-");
+  }
+}
+
+let slug = new SlugGenerator();
+console.log(slug.generuj("Co to jest OOP?"));
+
+
+class Analizator {
+  liczSamogloski(tekst) {
+    let sam = "aeiouy";
+    let licznik = 0;
+
+    for (let i = 0; i < tekst.length; i++) {
+      if (sam.includes(tekst[i].toLowerCase())) {
+        licznik++;
+      }
+    }
+    return licznik;
+  }
+}
+
+let a = new Analizator();
+console.log("Samogłoski:", a.liczSamogloski("Programowanie jest super"));
+
+
+// odwracanie stringa
+function odwroc(str) {
+  let wynik = "";
+  for (let i = str.length - 1; i >= 0; i--) {
+    wynik += str[i];
+  }
+  return wynik;
+}
+
+console.log(odwroc("ABC")); 
