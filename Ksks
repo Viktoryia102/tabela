@@ -1,0 +1,17 @@
+// 1. Zadeklaruj zmienną tekst
+let tekst = " Programowanie jest super! ";
+
+// 2. Wypisz w konsoli długość
+console.log("Długość tekstu:", tekst.length);
+
+// 3. Usuń białe znaki z początku i końca
+let tekstBezSpacji = tekst.trim();
+console.log("Po trim():", tekstBezSpacji);
+
+// 4. Zamień na wielkie litery
+let wielkieLitery = tekstBezSpacji.toUpperCase();
+console.log("Wielkie litery:", wielkieLitery);
+
+// 5. Sprawdź, czy zawiera słowo "super"
+let czyZawieraSuper = tekstBezSpacji.includes("super");
+console.log("Czy zawiera 'super'?:", czyZawieraSuper);
