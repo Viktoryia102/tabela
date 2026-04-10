@@ -129,3 +129,38 @@
     </script>
 </body>
 </html>
+
+
+
+
+<!-- TYLKO POZIOM 4 -->
+<div id="smartContainer"></div>
+
+<script>
+    class SmartButton {
+        constructor(text, color) {
+            this.text = text;
+            this.color = color;
+            this.clicks = 0;
+        }
+        render(container) {
+            const btn = document.createElement('button');
+            btn.textContent = `${this.text} (${this.clicks})`;
+            btn.style.background = this.color;
+            btn.style.margin = '5px';
+            btn.style.padding = '8px 12px';
+            btn.onclick = () => {
+                this.clicks++;
+                btn.textContent = `${this.text} (${this.clicks})`;
+            };
+            container.appendChild(btn);
+        }
+    }
+
+    const container = document.getElementById('smartContainer');
+    const kolory = ['#ffb3ba', '#c5e99b', '#b5e3ff', '#ffcc99', '#f2b5d4'];
+    for (let i = 0; i < 5; i++) {
+        const btn = new SmartButton(`Przycisk ${i+1}`, kolory[i]);
+        btn.render(container);
+    }
+</script>
