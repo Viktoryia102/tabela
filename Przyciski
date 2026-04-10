@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Przyciski - Poziomy 1-4</title>
+    <style>
+        body { font-family: Arial; padding: 20px; transition: 0.3s; }
+        .dark-mode { background: #222; color: #fff; }
+        button, input { margin: 5px; padding: 8px 12px; cursor: pointer; }
+        .task { border: 1px solid #ccc; margin: 15px 0; padding: 10px; border-radius: 5px; }
+        ul { list-style: none; padding-left: 0; }
+        li { background: #f0f0f0; margin: 5px 0; padding: 5px; display: flex; justify-content: space-between; }
+        .dark-mode li { background: #444; }
+        .smart-btn { margin: 5px; padding: 8px 12px; }
+    </style>
+</head>
+<body>
+
+    <h1>Przyciski - Poziomy 1-4</h1>
+
+    <!-- POZIOM 1 -->
+    <div class="task">
+        <h3>Poziom 1</h3>
+        <button id="btn1">Kliknij mnie</button>
+        <button id="btn2">Zmień tekst</button>
+        <button id="btnHover">Najedź myszką</button>
+    </div>
+
+    <!-- POZIOM 2 -->
+    <div class="task">
+        <h3>Poziom 2 - Licznik</h3>
+        <p>Licznik: <span id="counter">0</span></p>
+        <button id="incBtn">+1</button>
+        <button id="resetBtn">Reset</button>
+        <button id="disableBtn">Wyłącz mnie na 5s</button>
+    </div>
+
+    <!-- POZIOM 3 -->
+    <div class="task">
+        <h3>Poziom 3 - Lista</h3>
+        <input type="text" id="itemInput" placeholder="Wpisz tekst">
+        <button id="addBtn">Dodaj</button>
+        <ul id="list"></ul>
+        <button id="nightModeBtn">Przełącz tryb nocny</button>
+    </div>
+
+    <!-- POZIOM 4 -->
+    <div class="task">
+        <h3>Poziom 4 - SmartButton (5 przycisków)</h3>
+        <div id="smartContainer"></div>
+    </div>
+
+    <script>
+        // ---------- POZIOM 1 ----------
+        document.getElementById('btn1').onclick = () => alert("Witaj!");
+        
+        document.getElementById('btn2').onclick = function() {
+            this.textContent = "Zostałem kliknięty!";
+        }
+        
+        let hoverBtn = document.getElementById('btnHover');
+        hoverBtn.onmouseover = () => hoverBtn.style.background = "lightblue";
+        hoverBtn.onmouseout = () => hoverBtn.style.background = "";
+
+        // ---------- POZIOM 2 ----------
+        let count = 0;
+        const counterSpan = document.getElementById('counter');
+        document.getElementById('incBtn').onclick = () => {
+            count++;
+            counterSpan.textContent = count;
+        };
+        document.getElementById('resetBtn').onclick = () => {
+            count = 0;
+            counterSpan.textContent = count;
+        };
+        
+        let disableBtn = document.getElementById('disableBtn');
+        disableBtn.onclick = () => {
+            disableBtn.disabled = true;
+            setTimeout(() => { disableBtn.disabled = false; }, 5000);
+        };
+
+        // ---------- POZIOM 3 ----------
+        const input = document.getElementById('itemInput');
+        const list = document.getElementById('list');
+        
+        function addItem() {
+            let text = input.value.trim();
+            if (text === "") return;
+            let li = document.createElement('li');
+            li.innerHTML = `${text} <button class="deleteBtn">Usuń</button>`;
+            li.querySelector('.deleteBtn').onclick = () => li.remove();
+            list.appendChild(li);
+            input.value = "";
+        }
+        document.getElementById('addBtn').onclick = addItem;
+        
+        // Tryb nocny
+        document.getElementById('nightModeBtn').onclick = () => {
+            document.body.classList.toggle('dark-mode');
+        };
+
+        // ---------- POZIOM 4 (Klasa SmartButton) ----------
+        class SmartButton {
+            constructor(text, color) {
+                this.text = text;
+                this.color = color;
+                this.clicks = 0;
+            }
+            render(container) {
+                const btn = document.createElement('button');
+                btn.textContent = `${this.text} (${this.clicks})`;
+                btn.style.background = this.color;
+                btn.classList.add('smart-btn');
+                btn.onclick = () => {
+                    this.clicks++;
+                    btn.textContent = `${this.text} (${this.clicks})`;
+                };
+                container.appendChild(btn);
+            }
+        }
+        
+        const smartContainer = document.getElementById('smartContainer');
+        const colors = ['#ffb3ba', '#c5e99b', '#b5e3ff', '#ffcc99', '#f2b5d4'];
+        for (let i = 0; i < 5; i++) {
+            let sb = new SmartButton(`Btn${i+1}`, colors[i]);
+            sb.render(smartContainer);
+        }
+    </script>
+</body>
+</html>
