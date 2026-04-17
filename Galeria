@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Галерея</title>
+<title>Galeria</title>
 <style>
   body {
     font-family: Arial;
@@ -25,24 +25,24 @@
 </head>
 <body>
 
-<h2>Галерея (1–4 уровень)</h2>
+<h2>Galeria</h2>
 
 <img id="mainImg" src="https://picsum.photos/id/1015/300/200">
 
 <br>
 
-<button onclick="changeImage()">Сменить</button>
+<button onclick="changeImage()">Zmień zdjęcie</button>
 <button onclick="resetImage()">Reset</button>
 
 <br>
 
-<button onclick="prevImage()">Назад</button>
-<button onclick="nextImage()">Вперёд</button>
+<button onclick="prevImage()">Poprzednie</button>
+<button onclick="nextImage()">Następne</button>
 
 <p id="counter"></p>
 
 <script>
-// УРОВЕНЬ 1
+// Poziom 1
 const defaultImg = "https://picsum.photos/id/1015/300/200";
 
 function changeImage() {
@@ -53,7 +53,7 @@ function resetImage() {
   document.getElementById("mainImg").src = defaultImg;
 }
 
-// УРОВЕНЬ 2
+// Poziom 2
 const images = [
   "https://picsum.photos/id/1015/300/200",
   "https://picsum.photos/id/1025/300/200",
@@ -62,10 +62,16 @@ const images = [
 
 let index = 0;
 
-// УРОВЕНЬ 3
+function nextImage() {
+  index++;
+  if (index >= images.length) index = 0;
+  document.getElementById("mainImg").src = images[index];
+}
+
+// Poziom 3
 function updateImage() {
   document.getElementById("mainImg").src = images[index];
-  document.getElementById("counter").innerText = `Фото ${index + 1} из ${images.length}`;
+  document.getElementById("counter").innerText = `Zdjęcie ${index + 1} z ${images.length}`;
 }
 
 function nextImage() {
@@ -80,38 +86,32 @@ function prevImage() {
   updateImage();
 }
 
-// УРОВЕНЬ 4
+// Poziom 4
 class Gallery {
   constructor(imgArray, imgId) {
     this.images = imgArray;
     this.index = 0;
     this.imgEl = document.getElementById(imgId);
   }
-
   next() {
     this.index = (this.index + 1) % this.images.length;
     this.show();
   }
-
   prev() {
     this.index = (this.index - 1 + this.images.length) % this.images.length;
     this.show();
   }
-
   show() {
     this.imgEl.src = this.images[this.index];
   }
-
   autoPlay() {
     setInterval(() => this.next(), 3000);
   }
 }
 
-// запуск класса
 const gallery = new Gallery(images, "mainImg");
 gallery.autoPlay();
 
-// начальное состояние
 updateImage();
 
 </script>
